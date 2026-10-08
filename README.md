@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MechaDelta UI
 
-## Getting Started
+Web application for MechaDelta: RAM-efficient, long-horizon memory for indoor service robots. One product with two linked workspaces:
 
-First, run the development server:
+- **Robot Operations**: register a simulated or physical robot, or a recorded video; review the patrol; inspect objects and their history; ask historical questions with evidence; inspect memory residency; send supported navigation tasks.
+- **Research Lab**: the same memory engine viewed as experiments; configure policies and budgets, monitor runs, compare baseline and proposed policies, and export reproducible reports.
+
+Requirements: FR-01 to FR-50 (see `docs/requirements.md`).
+
+## Stack
+
+Next.js 16 (App Router, Turbopack, Cache Components), React 19, TypeScript, Tailwind CSS v4, Radix primitives, TanStack Query and Table, Zustand, nuqs, React Hook Form with Zod, Recharts, Vitest, Playwright.
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. Mock sign-in: `demo@mechadelta.lab` / `mechadelta`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Data mode
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`NEXT_PUBLIC_DATA_MODE=mock` (default) runs every page against typed in-browser mock services. All mock values are labelled as mock in the interface. `http` is reserved for the MechaDelta API.
 
-## Learn More
+Optional demo media: copy `MechaDelta_Demo.mp4` from the simulation `deliverables/` folder to `public/demo/patrol.mp4`. Without it, Patrol shows its no-media state and the event timeline still works.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Script              | Purpose                                     |
+| ------------------- | ------------------------------------------- |
+| `npm run dev`       | Development server                          |
+| `npm run typecheck` | Route type generation and TypeScript check  |
+| `npm run lint`      | ESLint                                      |
+| `npm run test`      | Unit and component tests (Vitest)           |
+| `npm run e2e`       | End-to-end tests (Playwright)               |
+| `npm run check`     | Typecheck, lint, test, and production build |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Branching
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`main` is always green. Work happens on `feat/*` branches and merges with `--no-ff` after `npm run check` passes.
