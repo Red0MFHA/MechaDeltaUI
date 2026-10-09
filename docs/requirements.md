@@ -38,11 +38,11 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 
 ## Control
 
-| FR    | Requirement                                | Screen                                    | Status  |
-| ----- | ------------------------------------------ | ----------------------------------------- | ------- |
-| FR-18 | Drive and control panel                    | `/app/operations/drive`                   | Planned |
-| FR-19 | Navigate to the last known object location | Drive                                     | Planned |
-| FR-20 | Task history and status                    | `/app/operations/tasks`, `/tasks/:taskId` | Planned |
+| FR    | Requirement                                | Screen                                    | Status |
+| ----- | ------------------------------------------ | ----------------------------------------- | ------ |
+| FR-18 | Drive and control panel                    | `/app/operations/drive`                   | Mock   |
+| FR-19 | Navigate to the last known object location | Drive                                     | Mock   |
+| FR-20 | Task history and status                    | `/app/operations/tasks`, `/tasks/:taskId` | Mock   |
 
 ## Historical questions and evidence
 
@@ -93,11 +93,11 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 
 ## Added during planning
 
-| FR    | Requirement                                                                                         | Screen        | Status  |
-| ----- | --------------------------------------------------------------------------------------------------- | ------------- | ------- |
-| FR-48 | User slug and photo for each object, shown next to the system id                                    | Object detail | Mock    |
-| FR-49 | Text commands, including "go to where you last saw my mug"; manipulation is answered as unavailable | Drive         | Planned |
-| FR-50 | Runtime lists of what is kept in RAM, released to disk, and folded into an interval                 | Runtime       | Mock    |
+| FR    | Requirement                                                                                         | Screen        | Status |
+| ----- | --------------------------------------------------------------------------------------------------- | ------------- | ------ |
+| FR-48 | User slug and photo for each object, shown next to the system id                                    | Object detail | Mock   |
+| FR-49 | Text commands, including "go to where you last saw my mug"; manipulation is answered as unavailable | Drive         | Mock   |
+| FR-50 | Runtime lists of what is kept in RAM, released to disk, and folded into an interval                 | Runtime       | Mock   |
 
 ## Non-functional requirements carried into the build
 

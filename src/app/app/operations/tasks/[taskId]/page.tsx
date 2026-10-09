@@ -1,13 +1,8 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { TaskDetail } from "./task-detail";
 
 export const metadata = { title: "Task" };
 
-export default function Page() {
-  return (
-    <ComingSoon
-      title="Task detail"
-      description="Status history and the reason a command was rejected or failed."
-      fr="FR-20"
-    />
-  );
+export default async function Page({ params }: PageProps<"/app/operations/tasks/[taskId]">) {
+  const { taskId } = await params;
+  return <TaskDetail id={taskId} />;
 }
