@@ -61,9 +61,20 @@ export const REPORT_DURATION_MS = 3_000;
 const TERMINAL_TASK: TaskStatus[] = ["succeeded", "failed", "rejected", "cancelled"];
 export const isTerminalTask = (status: TaskStatus) => TERMINAL_TASK.includes(status);
 
-function storageKey() {
-  return getScenario() === "empty" ? `${BASE_KEY}-empty` : BASE_KEY;
+export const DEMO_USER_ID = "usr-demo";
+let currentUser = DEMO_USER_ID;
+
+/** Mock data is stored per user so one account cannot see another account's sources. */
+export function setMockUser(userId: string) {
+  currentUser = userId;
 }
+
+function storageKey() {
+  const user = currentUser === DEMO_USER_ID ? "" : `:${currentUser}`;
+  return getScenario() === "empty" ? `${BASE_KEY}${user}-empty` : `${BASE_KEY}${user}`;
+}
+
+const seedsDemoData = (key: string) => key === BASE_KEY;
 
 function source(
   partial: Pick<RobotSource, "id" | "name" | "kind" | "connectionState" | "origin"> &
@@ -383,7 +394,7 @@ export function loadState(now = Date.now()): MockState {
   const key = storageKey();
   if (memory?.key !== key) {
     const stored = typeof window === "undefined" ? null : read(key);
-    const state = stored ?? (key.endsWith("-empty") ? emptyState(now) : seedState(now));
+    const state = stored ?? (seedsDemoData(key) ? seedState(now) : emptyState(now));
     memory = { key, state };
     if (!stored && typeof window !== "undefined") write(key, state);
   }
@@ -395,10 +406,12 @@ export function save() {
   if (memory && typeof window !== "undefined") write(memory.key, memory.state);
 }
 
+/** Clears the current user's mock data (normal and empty scenarios). */
 export function resetState() {
   if (typeof window !== "undefined") {
-    window.localStorage.removeItem(BASE_KEY);
-    window.localStorage.removeItem(`${BASE_KEY}-empty`);
+    const user = currentUser === DEMO_USER_ID ? "" : `:${currentUser}`;
+    window.localStorage.removeItem(`${BASE_KEY}${user}`);
+    window.localStorage.removeItem(`${BASE_KEY}${user}-empty`);
   }
   memory = null;
   runCache.clear();

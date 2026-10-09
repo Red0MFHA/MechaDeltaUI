@@ -43,12 +43,13 @@ import {
   resetState,
   runFor,
   save,
+  setMockUser,
   type MockState,
   type StoredTask,
   type TaskPlan as TaskPlanLike,
 } from "./db";
 import { ledgerForRun, seriesForRun } from "./research";
-import { getScenario } from "./scenario";
+import { getScenario, setScenario } from "./scenario";
 import { raycastScan, type RunData } from "./storyline";
 
 type Kind = "read" | "write";
@@ -343,18 +344,40 @@ export function createMockServices(): Services {
         if (getScenario() === "session_expired") return null;
         const res = await fetch("/api/mock-session", { cache: "no-store" });
         if (!res.ok) return null;
-        return ((await res.json()) as { session: Session | null }).session;
+        const session = ((await res.json()) as { session: Session | null }).session;
+        if (session) setMockUser(session.user.id);
+        return session;
       },
       async signIn(email, password) {
         const res = await fetch("/api/mock-session", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ mode: "signin", email, password }),
         });
         if (res.status === 401)
           throw new ServiceError("unauthorized", "Email or password is incorrect.");
-        if (!res.ok) throw new ServiceError("failed", "Sign-in failed.");
-        return ((await res.json()) as { session: Session }).session;
+        if (!res.ok) throw new ServiceError("failed", "Sign-in failed. Try again.");
+        const session = ((await res.json()) as { session: Session }).session;
+        setMockUser(session.user.id);
+        if (getScenario() === "session_expired") setScenario("normal");
+        return session;
+      },
+      async signUp(name, email, password) {
+        const res = await fetch("/api/mock-session", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ mode: "signup", name, email, password }),
+        });
+        if (res.status === 409) {
+          throw new ServiceError("conflict", "An account with this email already exists.", {
+            fieldErrors: { email: "An account with this email already exists." },
+          });
+        }
+        if (!res.ok)
+          throw new ServiceError("failed", "The account could not be created. Try again.");
+        const session = ((await res.json()) as { session: Session }).session;
+        setMockUser(session.user.id);
+        return session;
       },
       async signOut() {
         await fetch("/api/mock-session", { method: "DELETE" });

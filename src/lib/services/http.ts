@@ -26,6 +26,7 @@ export function createHttpServices(baseUrl: string | undefined): Services {
     auth: {
       getSession: async () => null,
       signIn: fail,
+      signUp: fail,
       signOut: async () => undefined,
     },
     sources: api(),

@@ -42,6 +42,7 @@ import type {
 export interface AuthApi {
   getSession(): Promise<Session | null>;
   signIn(email: string, password: string): Promise<Session>;
+  signUp(name: string, email: string, password: string): Promise<Session>;
   signOut(): Promise<void>;
 }
 

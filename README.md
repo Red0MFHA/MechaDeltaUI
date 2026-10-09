@@ -19,7 +19,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open http://localhost:3000. Mock sign-in: `demo@mechadelta.lab` / `mechadelta`.
+Open http://localhost:3000. Mock sign-in: `demo@mechadelta.lab` / `mechadelta`. Create an account on `/sign-up` for an empty workspace.
 
 ## Data mode
 
