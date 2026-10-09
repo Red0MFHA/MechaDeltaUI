@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="Mock evidence crop: CUP-001 at Table-A">
+  <rect width="320" height="240" fill="#e8e4dc"/>
+  <rect y="150" width="320" height="90" fill="#b98c5a"/>
+  <rect y="150" width="320" height="6" fill="#a07448"/>
+  <path d="M130 92h60l-6 66h-48z" fill="#f4f4f2" stroke="#9aa0a6" stroke-width="2"/>
+  <path d="M188 104c18 0 18 34 0 34" fill="none" stroke="#9aa0a6" stroke-width="6"/>
+  <ellipse cx="160" cy="92" rx="30" ry="6" fill="#dcdcd8" stroke="#9aa0a6" stroke-width="2"/>
+  <rect x="116" y="80" width="92" height="88" fill="none" stroke="#4f46e5" stroke-width="3"/>
+  <rect x="116" y="62" width="104" height="18" fill="#4f46e5"/>
+  <text x="121" y="75" font-family="monospace" font-size="12" fill="#fff">CUP-001 0.94</text>
+  <text x="160" y="214" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#3b2a18">Table-A · 10:20:12 UTC</text>
+  <text x="160" y="40" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="22" fill="#000" fill-opacity="0.18" transform="rotate(-12 160 120)">MOCK EVIDENCE</text>
+</svg>
