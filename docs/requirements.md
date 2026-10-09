@@ -19,9 +19,9 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 
 | FR    | Requirement                                   | Screen                                       | Status  |
 | ----- | --------------------------------------------- | -------------------------------------------- | ------- |
-| FR-07 | Register a robot or source                    | `/app/operations/robots`                     | Planned |
-| FR-08 | Browse and inspect registered robots          | `/app/operations/robots`, `/robots/:robotId` | Planned |
-| FR-09 | Edit, connect, disconnect, or remove a source | `/app/operations/robots/:robotId`            | Planned |
+| FR-07 | Register a robot or source                    | `/app/operations/robots`                     | Mock    |
+| FR-08 | Browse and inspect registered robots          | `/app/operations/robots`, `/robots/:robotId` | Mock    |
+| FR-09 | Edit, connect, disconnect, or remove a source | `/app/operations/robots/:robotId`            | Mock    |
 | FR-10 | Operations overview                           | `/app/operations/overview`                   | Planned |
 | FR-11 | System health and capabilities                | Overview, robot detail                       | Planned |
 
@@ -81,8 +81,8 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 
 | FR    | Requirement                                   | Screen                           | Status   |
 | ----- | --------------------------------------------- | -------------------------------- | -------- |
-| FR-39 | Process a recorded video                      | Robot detail (recording sources) | Planned  |
-| FR-40 | Ingestion and processing status               | Robot detail, overview           | Planned  |
+| FR-39 | Process a recorded video                      | Robot detail (recording sources) | Mock     |
+| FR-40 | Ingestion and processing status               | Robot detail                     | Mock     |
 | FR-41 | Consistent search and filtering               | All lists                        | Planned  |
 | FR-42 | Cross-link related entities                   | All detail screens               | Planned  |
 | FR-43 | Global notifications                          | Toasts                           | Mock     |
