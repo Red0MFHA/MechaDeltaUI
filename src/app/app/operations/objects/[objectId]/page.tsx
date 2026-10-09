@@ -1,13 +1,8 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { ObjectDetail } from "./object-detail";
 
 export const metadata = { title: "Object" };
 
-export default function Page() {
-  return (
-    <ComingSoon
-      title="Object history"
-      description="Slug, photo, intervals, transitions, and last known place."
-      fr="FR-15"
-    />
-  );
+export default async function Page({ params }: PageProps<"/app/operations/objects/[objectId]">) {
+  const { objectId } = await params;
+  return <ObjectDetail id={objectId} />;
 }
