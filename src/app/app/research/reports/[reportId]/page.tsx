@@ -1,13 +1,8 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { ReportDetail } from "./report-detail";
 
 export const metadata = { title: "Report" };
 
-export default function Page() {
-  return (
-    <ComingSoon
-      title="Report detail"
-      description="JSON, CSV, and print views of a selected set of runs."
-      fr="FR-38"
-    />
-  );
+export default async function Page({ params }: PageProps<"/app/research/reports/[reportId]">) {
+  const { reportId } = await params;
+  return <ReportDetail id={reportId} />;
 }

@@ -1,13 +1,7 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { AnalyticsPage } from "./analytics-page";
 
 export const metadata = { title: "Analytics" };
 
 export default function Page() {
-  return (
-    <ComingSoon
-      title="Research analytics"
-      description="Accuracy, resident bytes, reload count, and floor crossings across completed runs."
-      fr="FR-36"
-    />
-  );
+  return <AnalyticsPage />;
 }

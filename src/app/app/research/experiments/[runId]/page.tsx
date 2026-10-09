@@ -1,13 +1,8 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { RunDetail } from "./run-detail";
 
 export const metadata = { title: "Run" };
 
-export default function Page() {
-  return (
-    <ComingSoon
-      title="Run detail"
-      description="Metrics, series, ledger, and a downloadable run manifest."
-      fr="FR-34"
-    />
-  );
+export default async function Page({ params }: PageProps<"/app/research/experiments/[runId]">) {
+  const { runId } = await params;
+  return <RunDetail id={runId} />;
 }
