@@ -6,14 +6,14 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 
 ## Access and shell
 
-| FR    | Requirement                                      | Screen                | Status  |
-| ----- | ------------------------------------------------ | --------------------- | ------- |
-| FR-01 | Sign in                                          | `/sign-in`            | Planned |
-| FR-02 | Sign out and session expiry                      | User menu, any screen | Planned |
-| FR-03 | Account profile and user context                 | `/app/settings`       | Planned |
-| FR-04 | Shared application shell                         | `/app/*` layout       | Planned |
-| FR-05 | Switch between Robot Operations and Research Lab | Top bar               | Planned |
-| FR-06 | Select the active robot or data source           | Top bar               | Planned |
+| FR    | Requirement                                      | Screen                | Status |
+| ----- | ------------------------------------------------ | --------------------- | ------ |
+| FR-01 | Sign in                                          | `/sign-in`            | Mock   |
+| FR-02 | Sign out and session expiry                      | User menu, any screen | Mock   |
+| FR-03 | Account profile and user context                 | `/app/settings`       | Mock   |
+| FR-04 | Shared application shell                         | `/app/*` layout       | Mock   |
+| FR-05 | Switch between Robot Operations and Research Lab | Top bar               | Mock   |
+| FR-06 | Select the active robot or data source           | Top bar               | Mock   |
 
 ## Robots and sources
 
@@ -85,10 +85,10 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 | FR-40 | Ingestion and processing status               | Robot detail, overview           | Planned  |
 | FR-41 | Consistent search and filtering               | All lists                        | Planned  |
 | FR-42 | Cross-link related entities                   | All detail screens               | Planned  |
-| FR-43 | Global notifications                          | Toasts                           | Planned  |
-| FR-44 | Loading, empty, unavailable, and error states | All screens                      | Planned  |
-| FR-45 | Data freshness and provenance                 | Badges on every value            | Planned  |
-| FR-46 | Access and data protection                    | Proxy, services                  | Planned  |
+| FR-43 | Global notifications                          | Toasts                           | Mock     |
+| FR-44 | Loading, empty, unavailable, and error states | Shared components                | Mock     |
+| FR-45 | Data freshness and provenance                 | Badges, mock banner              | Mock     |
+| FR-46 | Access and data protection                    | Proxy, httpOnly cookie           | Mock     |
 | FR-47 | Demographic and secondary analytics           | Not built                        | Deferred |
 
 ## Added during planning
