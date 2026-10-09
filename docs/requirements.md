@@ -56,26 +56,26 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 
 ## Memory and runtime
 
-| FR    | Requirement               | Screen                             | Status  |
-| ----- | ------------------------- | ---------------------------------- | ------- |
-| FR-26 | Memory explorer           | `/app/operations/memory`           | Mock    |
-| FR-27 | Memory item details       | `/app/operations/memory/:memoryId` | Mock    |
-| FR-28 | Event ledger              | Runtime                            | Mock    |
-| FR-29 | Runtime resource overview | `/app/operations/runtime`          | Mock    |
-| FR-30 | Memory residency timeline | Runtime                            | Mock    |
-| FR-31 | Resource history          | `/app/research/runtime`            | Planned |
+| FR    | Requirement               | Screen                             | Status |
+| ----- | ------------------------- | ---------------------------------- | ------ |
+| FR-26 | Memory explorer           | `/app/operations/memory`           | Mock   |
+| FR-27 | Memory item details       | `/app/operations/memory/:memoryId` | Mock   |
+| FR-28 | Event ledger              | Runtime                            | Mock   |
+| FR-29 | Runtime resource overview | `/app/operations/runtime`          | Mock   |
+| FR-30 | Memory residency timeline | Runtime                            | Mock   |
+| FR-31 | Resource history          | `/app/research/runtime`            | Mock   |
 
 ## Research
 
-| FR    | Requirement                               | Screen                                        | Status  |
-| ----- | ----------------------------------------- | --------------------------------------------- | ------- |
-| FR-32 | Experiment registry                       | `/app/research/experiments`                   | Planned |
-| FR-33 | Configure an experiment                   | `/app/research/experiments/new`               | Planned |
-| FR-34 | Run and monitor an experiment             | `/app/research/experiments/:runId`            | Planned |
-| FR-35 | Compare baselines and the proposed policy | `/app/research/compare`                       | Planned |
-| FR-36 | Research analytics                        | `/app/research/analytics`                     | Planned |
-| FR-37 | Experiment reproducibility (run manifest) | Run detail                                    | Planned |
-| FR-38 | Research report export                    | `/app/research/reports`, `/reports/:reportId` | Planned |
+| FR    | Requirement                               | Screen                                        | Status |
+| ----- | ----------------------------------------- | --------------------------------------------- | ------ |
+| FR-32 | Experiment registry                       | `/app/research/experiments`                   | Mock   |
+| FR-33 | Configure an experiment                   | `/app/research/experiments/new`               | Mock   |
+| FR-34 | Run and monitor an experiment             | `/app/research/experiments/:runId`            | Mock   |
+| FR-35 | Compare baselines and the proposed policy | `/app/research/compare`                       | Mock   |
+| FR-36 | Research analytics                        | `/app/research/analytics`                     | Mock   |
+| FR-37 | Experiment reproducibility (run manifest) | Run detail                                    | Mock   |
+| FR-38 | Research report export                    | `/app/research/reports`, `/reports/:reportId` | Mock   |
 
 ## Ingestion and cross-cutting
 
