@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 import { toast } from "sonner";
 
 import { PageHeader, Section } from "@/components/page-header";
@@ -73,9 +74,31 @@ export function TaskDetail({ id }: { id: string }) {
           {task.target?.label && (
             <div>
               <p className="text-xs text-muted-foreground">Target</p>
-              <p>{task.target.label}</p>
+              <p>
+                {task.target.objectId ? (
+                  <Link
+                    href={`/app/operations/objects/${task.target.objectId}`}
+                    className="text-primary hover:underline"
+                  >
+                    {task.target.label}
+                  </Link>
+                ) : (
+                  task.target.label
+                )}
+              </p>
             </div>
           )}
+          <div>
+            <p className="text-xs text-muted-foreground">Source</p>
+            <p>
+              <Link
+                href={`/app/operations/robots/${task.sourceId}`}
+                className="text-primary hover:underline"
+              >
+                {task.sourceId}
+              </Link>
+            </p>
+          </div>
           {task.resultSummary && (
             <div className="sm:col-span-2">
               <p className="text-xs text-muted-foreground">Result</p>

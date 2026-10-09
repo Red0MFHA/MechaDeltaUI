@@ -11,6 +11,7 @@ import { useActiveSource } from "@/components/active-source";
 import { CapabilityPills } from "@/components/capabilities";
 import { Field, applyFieldErrors } from "@/components/form-field";
 import { PageHeader, Section } from "@/components/page-header";
+import { RelatedLinks } from "@/components/related";
 import { ConnectionBadge, Freshness, ProvenanceBadge } from "@/components/provenance";
 import { ErrorState, LoadingState } from "@/components/states";
 import {
@@ -141,6 +142,20 @@ export function SourceDetail({ id }: { id: string }) {
           description="Controls that this source cannot provide stay disabled in the console."
         >
           <CapabilityPills capabilities={source.capabilities} />
+        </Section>
+
+        <Section title="Open in console">
+          <RelatedLinks
+            items={[
+              { href: "/app/operations/overview", label: "Overview" },
+              { href: "/app/operations/patrol", label: "Patrol" },
+              { href: "/app/operations/events", label: "Events" },
+              { href: "/app/operations/ask", label: "Ask history" },
+              { href: "/app/operations/memory", label: "Memory" },
+              { href: "/app/operations/drive", label: "Drive" },
+              { href: "/app/operations/runtime", label: "Runtime" },
+            ]}
+          />
         </Section>
 
         <Section title="Connection">

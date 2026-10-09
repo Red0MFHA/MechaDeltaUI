@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { PageHeader, Section } from "@/components/page-header";
 import { Note, ProvenanceBadge } from "@/components/provenance";
+import { RelatedLinks } from "@/components/related";
 import { policyName } from "@/components/research/policy-color";
 import { SeriesChart } from "@/components/research/series-chart";
 import { ErrorState, LoadingState } from "@/components/states";
@@ -135,6 +136,21 @@ export function RunDetail({ id }: { id: string }) {
       {run.failureReason && <p className="mb-4 text-sm text-danger">{run.failureReason}</p>}
       {run.notes && <Note>{run.notes}</Note>}
 
+      <Section title="Related" className="mt-6">
+        <RelatedLinks
+          items={[
+            {
+              href: `/app/operations/robots/${run.config.sourceId}`,
+              label: "Source used for this run",
+              hint: run.config.sourceId,
+            },
+            { href: "/app/research/runtime", label: "Resource history" },
+            { href: "/app/research/compare", label: "Compare policies" },
+            { href: "/app/research/reports", label: "Export in a report" },
+          ]}
+        />
+      </Section>
+
       <Section title="Configuration" className="mt-6">
         <Card>
           <CardContent className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -200,7 +216,18 @@ export function RunDetail({ id }: { id: string }) {
               <span className="font-medium">{e.eventType}</span>
               <span className="text-muted-foreground">
                 {" "}
-                · {e.memoryId} · {formatDateTime(e.occurredAt, tz)}
+                ·{" "}
+                {e.memoryId ? (
+                  <Link
+                    href={`/app/operations/memory/${e.memoryId}`}
+                    className="text-primary hover:underline"
+                  >
+                    {e.memoryId}
+                  </Link>
+                ) : (
+                  "—"
+                )}{" "}
+                · {formatDateTime(e.occurredAt, tz)}
               </span>
             </li>
           ))}

@@ -4,9 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { parseAsString, useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 
 import { Field, applyFieldErrors } from "@/components/form-field";
+import { ListFilters, listEmpty } from "@/components/list-filters";
 import { NeedSource } from "@/components/need-source";
 import { PageHeader } from "@/components/page-header";
 import { Note } from "@/components/provenance";
@@ -37,6 +39,7 @@ function AskBody({ sourceId }: { sourceId: string }) {
     queryKey: qk.questions(sourceId),
     queryFn: () => getServices().questions.list(sourceId),
   });
+  const [search, setSearch] = useQueryState("q", parseAsString.withDefault(""));
   const askSchema = questionSchema.extend({ objectId: z.string().optional() });
   type AskValues = z.infer<typeof askSchema>;
   const form = useForm<AskValues>({
@@ -115,6 +118,14 @@ function AskBody({ sourceId }: { sourceId: string }) {
         </CardContent>
       </Card>
       <h2 className="mb-3 text-base font-semibold">Earlier questions</h2>
+      <ListFilters
+        search={search}
+        onSearch={(value) => void setSearch(value || null)}
+        placeholder="Search questions"
+        searchLabel="Search questions"
+        active={Boolean(search)}
+        onClear={() => void setSearch(null)}
+      />
       <QueryView
         query={history}
         empty={
@@ -123,26 +134,37 @@ function AskBody({ sourceId }: { sourceId: string }) {
           </EmptyState>
         }
       >
-        {(items) => (
-          <ul className="flex flex-col gap-2">
-            {items.map((q) => (
-              <li key={q.id}>
-                <Link
-                  href={`/app/operations/ask/${q.id}`}
-                  className="flex items-start justify-between gap-3 rounded-lg border border-border bg-surface p-3 hover:border-primary/40"
-                >
-                  <span>
-                    <span className="block font-medium">{q.question}</span>
-                    <span className="text-sm text-muted-foreground">{q.answer}</span>
-                  </span>
-                  <Badge tone={q.status === "completed" ? "success" : "warning"}>
-                    {q.status.replaceAll("_", " ")}
-                  </Badge>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
+        {(items) => {
+          const q = search.trim().toLowerCase();
+          const filtered = q
+            ? items.filter(
+                (item) =>
+                  item.question.toLowerCase().includes(q) ||
+                  (item.answer ?? "").toLowerCase().includes(q),
+              )
+            : items;
+          if (filtered.length === 0) return listEmpty(true, "questions");
+          return (
+            <ul className="flex flex-col gap-2">
+              {filtered.map((q) => (
+                <li key={q.id}>
+                  <Link
+                    href={`/app/operations/ask/${q.id}`}
+                    className="flex items-start justify-between gap-3 rounded-lg border border-border bg-surface p-3 hover:border-primary/40"
+                  >
+                    <span>
+                      <span className="block font-medium">{q.question}</span>
+                      <span className="text-sm text-muted-foreground">{q.answer}</span>
+                    </span>
+                    <Badge tone={q.status === "completed" ? "success" : "warning"}>
+                      {q.status.replaceAll("_", " ")}
+                    </Badge>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          );
+        }}
       </QueryView>
     </>
   );

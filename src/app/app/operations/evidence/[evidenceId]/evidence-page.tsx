@@ -19,14 +19,28 @@ export function EvidencePage({ id }: { id: string }) {
   if (query.error || !query.data)
     return <ErrorState error={query.error} onRetry={() => void query.refetch()} />;
   const report = query.data;
+  const subjectHref =
+    report.subject.kind === "question"
+      ? `/app/operations/ask/${report.subject.id}`
+      : report.subject.kind === "object"
+        ? `/app/operations/objects/${report.subject.id}`
+        : report.subject.kind === "task"
+          ? `/app/operations/tasks/${report.subject.id}`
+          : `/app/operations/events?event=${report.subject.id}`;
 
   return (
     <>
       <PageHeader
         title={report.title}
         description={report.summary}
-        crumbs={[{ label: "Evidence" }]}
+        crumbs={[{ label: "Evidence" }, { label: report.subject.kind, href: subjectHref }]}
       />
+      <p className="mb-4 text-sm">
+        Subject:{" "}
+        <Link href={subjectHref} className="text-primary hover:underline">
+          {report.subject.kind} {report.subject.id}
+        </Link>
+      </p>
       <ol className="flex flex-col gap-3">
         {report.evidence.map((e) => (
           <li key={e.id}>
