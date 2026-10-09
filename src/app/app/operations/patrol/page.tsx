@@ -1,13 +1,7 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { PatrolPage } from "./patrol-page";
 
 export const metadata = { title: "Patrol" };
 
 export default function Page() {
-  return (
-    <ComingSoon
-      title="Patrol"
-      description="Watch the camera or recording with detections, pose, map, and LiDAR."
-      fr="FR-12"
-    />
-  );
+  return <PatrolPage />;
 }

@@ -17,24 +17,24 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 
 ## Robots and sources
 
-| FR    | Requirement                                   | Screen                                       | Status  |
-| ----- | --------------------------------------------- | -------------------------------------------- | ------- |
-| FR-07 | Register a robot or source                    | `/app/operations/robots`                     | Mock    |
-| FR-08 | Browse and inspect registered robots          | `/app/operations/robots`, `/robots/:robotId` | Mock    |
-| FR-09 | Edit, connect, disconnect, or remove a source | `/app/operations/robots/:robotId`            | Mock    |
-| FR-10 | Operations overview                           | `/app/operations/overview`                   | Planned |
-| FR-11 | System health and capabilities                | Overview, robot detail                       | Planned |
+| FR    | Requirement                                   | Screen                                       | Status |
+| ----- | --------------------------------------------- | -------------------------------------------- | ------ |
+| FR-07 | Register a robot or source                    | `/app/operations/robots`                     | Mock   |
+| FR-08 | Browse and inspect registered robots          | `/app/operations/robots`, `/robots/:robotId` | Mock   |
+| FR-09 | Edit, connect, disconnect, or remove a source | `/app/operations/robots/:robotId`            | Mock   |
+| FR-10 | Operations overview                           | `/app/operations/overview`                   | Mock   |
+| FR-11 | System health and capabilities                | Overview, robot detail                       | Mock   |
 
 ## Observation
 
-| FR    | Requirement                     | Screen                              | Status  |
-| ----- | ------------------------------- | ----------------------------------- | ------- |
-| FR-12 | Patrol and observation viewer   | `/app/operations/patrol`            | Planned |
-| FR-13 | Object detections               | Patrol overlay                      | Planned |
-| FR-14 | Event and observation history   | `/app/operations/events`            | Planned |
-| FR-15 | Object history and trajectories | `/app/operations/objects/:objectId` | Planned |
-| FR-16 | Robot pose and map context      | Patrol, Drive                       | Planned |
-| FR-17 | LiDAR and spatial sensor view   | Patrol, Drive                       | Planned |
+| FR    | Requirement                     | Screen                              | Status |
+| ----- | ------------------------------- | ----------------------------------- | ------ |
+| FR-12 | Patrol and observation viewer   | `/app/operations/patrol`            | Mock   |
+| FR-13 | Object detections               | Patrol overlay                      | Mock   |
+| FR-14 | Event and observation history   | `/app/operations/events`            | Mock   |
+| FR-15 | Object history and trajectories | `/app/operations/objects/:objectId` | Mock   |
+| FR-16 | Robot pose and map context      | Patrol                              | Mock   |
+| FR-17 | LiDAR and spatial sensor view   | Patrol                              | Mock   |
 
 ## Control
 
@@ -95,7 +95,7 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 
 | FR    | Requirement                                                                                         | Screen        | Status  |
 | ----- | --------------------------------------------------------------------------------------------------- | ------------- | ------- |
-| FR-48 | User slug and photo for each object, shown next to the system id                                    | Object detail | Planned |
+| FR-48 | User slug and photo for each object, shown next to the system id                                    | Object detail | Mock    |
 | FR-49 | Text commands, including "go to where you last saw my mug"; manipulation is answered as unavailable | Drive         | Planned |
 | FR-50 | Runtime lists of what is kept in RAM, released to disk, and folded into an interval                 | Runtime       | Planned |
 
