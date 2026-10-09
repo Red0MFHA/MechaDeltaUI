@@ -1,13 +1,8 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { SourceDetail } from "./source-detail";
 
 export const metadata = { title: "Source" };
 
-export default function Page() {
-  return (
-    <ComingSoon
-      title="Source details"
-      description="Inspect capabilities, connect or disconnect, and process a recording."
-      fr="FR-08"
-    />
-  );
+export default async function Page({ params }: PageProps<"/app/operations/robots/[robotId]">) {
+  const { robotId } = await params;
+  return <SourceDetail id={robotId} />;
 }
