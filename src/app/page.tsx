@@ -1,7 +1,6 @@
-import { connection } from "next/server";
 import { redirect } from "next/navigation";
 
-export default async function Home() {
-  await connection();
+/** Signed-in users land in operations; the proxy sends everyone else to sign-in. */
+export default function Home() {
   redirect("/app/operations/overview");
 }

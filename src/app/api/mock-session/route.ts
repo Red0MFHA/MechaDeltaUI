@@ -63,7 +63,8 @@ export async function POST(request: Request) {
   jar.set(SESSION_COOKIE, await signSession(claims), {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    // http://localhost must not use Secure, including `next start` (NODE_ENV=production).
+    secure: new URL(request.url).protocol === "https:",
     path: "/",
     maxAge: SESSION_TTL_SECONDS,
   });
