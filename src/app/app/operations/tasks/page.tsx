@@ -1,13 +1,15 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { Suspense } from "react";
+
+import { LoadingState } from "@/components/states";
+
+import { TasksPage } from "./tasks-page";
 
 export const metadata = { title: "Tasks" };
 
 export default function Page() {
   return (
-    <ComingSoon
-      title="Tasks"
-      description="Accepted, running, succeeded, failed, and rejected commands."
-      fr="FR-20"
-    />
+    <Suspense fallback={<LoadingState label="Loading tasks" />}>
+      <TasksPage />
+    </Suspense>
   );
 }
