@@ -6,6 +6,23 @@ export const signInSchema = z.object({
 });
 export type SignInValues = z.infer<typeof signInSchema>;
 
+export const signUpSchema = z
+  .object({
+    name: z
+      .string()
+      .trim()
+      .min(2, "Use at least 2 characters.")
+      .max(60, "Use at most 60 characters."),
+    email: z.string().trim().min(1, "Enter your email.").email("Enter a valid email address."),
+    password: z.string().min(8, "Use at least 8 characters."),
+    confirm: z.string().min(1, "Repeat the password."),
+  })
+  .refine((v) => v.password === v.confirm, {
+    path: ["confirm"],
+    message: "Passwords do not match.",
+  });
+export type SignUpValues = z.infer<typeof signUpSchema>;
+
 export const sourceKinds = [
   "recorded_video",
   "live_camera",
