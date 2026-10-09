@@ -1,13 +1,8 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { EvidencePage } from "./evidence-page";
 
 export const metadata = { title: "Evidence" };
 
-export default function Page() {
-  return (
-    <ComingSoon
-      title="Evidence report"
-      description="The crops, transitions, and events that support an answer or an object."
-      fr="FR-25"
-    />
-  );
+export default async function Page({ params }: PageProps<"/app/operations/evidence/[evidenceId]">) {
+  const { evidenceId } = await params;
+  return <EvidencePage id={evidenceId} />;
 }

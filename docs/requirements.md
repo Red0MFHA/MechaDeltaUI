@@ -46,23 +46,23 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 
 ## Historical questions and evidence
 
-| FR    | Requirement                            | Screen                                 | Status  |
-| ----- | -------------------------------------- | -------------------------------------- | ------- |
-| FR-21 | Ask a historical question              | `/app/operations/ask`                  | Planned |
-| FR-22 | Context controls (time range, objects) | Ask                                    | Planned |
-| FR-23 | Answer evidence and citations          | Ask, question detail                   | Planned |
-| FR-24 | Question history                       | `/app/operations/ask/:questionId`      | Planned |
-| FR-25 | Evidence report                        | `/app/operations/evidence/:evidenceId` | Planned |
+| FR    | Requirement                            | Screen                                 | Status |
+| ----- | -------------------------------------- | -------------------------------------- | ------ |
+| FR-21 | Ask a historical question              | `/app/operations/ask`                  | Mock   |
+| FR-22 | Context controls (time range, objects) | Ask                                    | Mock   |
+| FR-23 | Answer evidence and citations          | Ask, question detail                   | Mock   |
+| FR-24 | Question history                       | `/app/operations/ask/:questionId`      | Mock   |
+| FR-25 | Evidence report                        | `/app/operations/evidence/:evidenceId` | Mock   |
 
 ## Memory and runtime
 
 | FR    | Requirement               | Screen                             | Status  |
 | ----- | ------------------------- | ---------------------------------- | ------- |
-| FR-26 | Memory explorer           | `/app/operations/memory`           | Planned |
-| FR-27 | Memory item details       | `/app/operations/memory/:memoryId` | Planned |
-| FR-28 | Event ledger              | Runtime                            | Planned |
-| FR-29 | Runtime resource overview | `/app/operations/runtime`          | Planned |
-| FR-30 | Memory residency timeline | Runtime                            | Planned |
+| FR-26 | Memory explorer           | `/app/operations/memory`           | Mock    |
+| FR-27 | Memory item details       | `/app/operations/memory/:memoryId` | Mock    |
+| FR-28 | Event ledger              | Runtime                            | Mock    |
+| FR-29 | Runtime resource overview | `/app/operations/runtime`          | Mock    |
+| FR-30 | Memory residency timeline | Runtime                            | Mock    |
 | FR-31 | Resource history          | `/app/research/runtime`            | Planned |
 
 ## Research
@@ -97,7 +97,7 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 | ----- | --------------------------------------------------------------------------------------------------- | ------------- | ------- |
 | FR-48 | User slug and photo for each object, shown next to the system id                                    | Object detail | Mock    |
 | FR-49 | Text commands, including "go to where you last saw my mug"; manipulation is answered as unavailable | Drive         | Planned |
-| FR-50 | Runtime lists of what is kept in RAM, released to disk, and folded into an interval                 | Runtime       | Planned |
+| FR-50 | Runtime lists of what is kept in RAM, released to disk, and folded into an interval                 | Runtime       | Mock    |
 
 ## Non-functional requirements carried into the build
 

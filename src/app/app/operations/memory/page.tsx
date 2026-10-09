@@ -1,13 +1,15 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { Suspense } from "react";
+
+import { LoadingState } from "@/components/states";
+
+import { MemoryPage } from "./memory-page";
 
 export const metadata = { title: "Memory" };
 
 export default function Page() {
   return (
-    <ComingSoon
-      title="Memory explorer"
-      description="Anchors, intervals, transitions, and payloads with residency state."
-      fr="FR-26"
-    />
+    <Suspense fallback={<LoadingState label="Loading memory" />}>
+      <MemoryPage />
+    </Suspense>
   );
 }

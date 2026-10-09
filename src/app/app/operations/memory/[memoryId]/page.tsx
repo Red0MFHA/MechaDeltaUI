@@ -1,13 +1,8 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { MemoryDetail } from "./memory-detail";
 
 export const metadata = { title: "Memory item" };
 
-export default function Page() {
-  return (
-    <ComingSoon
-      title="Memory item"
-      description="Size, hashes, freshness, and the ledger events for one record."
-      fr="FR-27"
-    />
-  );
+export default async function Page({ params }: PageProps<"/app/operations/memory/[memoryId]">) {
+  const { memoryId } = await params;
+  return <MemoryDetail id={memoryId} />;
 }
