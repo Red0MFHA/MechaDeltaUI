@@ -66,6 +66,13 @@ export function QuestionDetail({ id }: { id: string }) {
                 Open object
               </Link>
             )}
+            {" · "}
+            <Link
+              href={`/app/operations/robots/${q.sourceId}`}
+              className="text-primary hover:underline"
+            >
+              Source
+            </Link>
           </p>
         </CardContent>
       </Card>

@@ -4,11 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { parseAsString, useQueryState } from "nuqs";
 
+import { ListFilters, listEmpty } from "@/components/list-filters";
 import { NeedSource } from "@/components/need-source";
 import { PageHeader } from "@/components/page-header";
-import { EmptyState, QueryView } from "@/components/states";
+import { QueryView } from "@/components/states";
 import { TaskBadge } from "@/components/status-badge";
-import { Input } from "@/components/ui/input";
 import { qk } from "@/lib/query/keys";
 import { getServices } from "@/lib/services";
 
@@ -31,20 +31,21 @@ function TasksBody({ sourceId }: { sourceId: string }) {
         description="Every command, including rejected pick-and-place requests."
         crumbs={[{ label: "Tasks" }]}
       />
-      <Input
-        className="mb-4 max-w-md"
-        value={search}
-        onChange={(e) => void setSearch(e.target.value || null)}
+      <ListFilters
+        search={search}
+        onSearch={(value) => void setSearch(value || null)}
         placeholder="Search commands"
-        aria-label="Search tasks"
+        searchLabel="Search tasks"
+        active={Boolean(search)}
+        onClear={() => void setSearch(null)}
       />
       <QueryView
         query={query}
-        empty={
-          <EmptyState title="No tasks yet">
-            Send a jog or a navigation command from Drive.
-          </EmptyState>
-        }
+        empty={listEmpty(
+          Boolean(search),
+          "tasks",
+          "Send a jog or a navigation command from Drive.",
+        )}
       >
         {(items) => (
           <ul className="flex flex-col gap-2">

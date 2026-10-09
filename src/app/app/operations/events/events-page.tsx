@@ -4,13 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 
+import { ListFilters, listEmpty } from "@/components/list-filters";
 import { NeedSource } from "@/components/need-source";
 import { PageHeader } from "@/components/page-header";
 import { Freshness, ProvenanceBadge } from "@/components/provenance";
-import { EmptyState, QueryView } from "@/components/states";
+import { QueryView } from "@/components/states";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input, NativeSelect } from "@/components/ui/input";
+import { NativeSelect } from "@/components/ui/input";
 import type { DataOrigin, EventType } from "@/lib/contracts/types";
 import { displayName } from "@/lib/domain/objects";
 import { qk } from "@/lib/query/keys";
@@ -70,13 +71,17 @@ function EventsBody({ sourceId, origin }: { sourceId: string; origin: DataOrigin
         crumbs={[{ label: "Events" }]}
         meta={<ProvenanceBadge origin={origin} />}
       />
-      <div className="mb-4 flex flex-col gap-2 sm:flex-row">
-        <Input
-          value={search}
-          onChange={(e) => void setSearch(e.target.value || null)}
-          placeholder="Search summaries, places, or names"
-          aria-label="Search events"
-        />
+      <ListFilters
+        search={search}
+        onSearch={(value) => void setSearch(value || null)}
+        placeholder="Search summaries, places, or names"
+        searchLabel="Search events"
+        active={Boolean(search || type)}
+        onClear={() => {
+          void setSearch(null);
+          void setType(null);
+        }}
+      >
         <NativeSelect
           className="sm:w-64"
           value={type ?? ""}
@@ -90,15 +95,11 @@ function EventsBody({ sourceId, origin }: { sourceId: string; origin: DataOrigin
             </option>
           ))}
         </NativeSelect>
-      </div>
+      </ListFilters>
       <QueryView
         query={query}
         isEmpty={(page) => page.items.length === 0}
-        empty={
-          <EmptyState title="No events match these filters">
-            Clear the search, or process a recording first.
-          </EmptyState>
-        }
+        empty={listEmpty(Boolean(search || type), "events", "Process a recording first.")}
       >
         {(page) => (
           <>

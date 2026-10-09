@@ -5,12 +5,13 @@ import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 
+import { ListFilters, listEmpty } from "@/components/list-filters";
 import { PageHeader } from "@/components/page-header";
 import { ProvenanceBadge } from "@/components/provenance";
-import { EmptyState, QueryView } from "@/components/states";
+import { QueryView } from "@/components/states";
 import { RunBadge } from "@/components/status-badge";
 import { Button } from "@/components/ui/button";
-import { Input, NativeSelect } from "@/components/ui/input";
+import { NativeSelect } from "@/components/ui/input";
 import { Progress } from "@/components/ui/switch";
 import { policies, policyById, workloadById } from "@/lib/contracts/catalog";
 import type { RunStatus } from "@/lib/contracts/types";
@@ -61,13 +62,18 @@ export function ExperimentsPage() {
           </Button>
         }
       />
-      <div className="mb-4 grid gap-2 sm:grid-cols-3">
-        <Input
-          value={search}
-          onChange={(e) => void setSearch(e.target.value || null)}
-          placeholder="Search name or id"
-          aria-label="Search experiments"
-        />
+      <ListFilters
+        search={search}
+        onSearch={(value) => void setSearch(value || null)}
+        placeholder="Search name or id"
+        searchLabel="Search experiments"
+        active={Boolean(search || status || policyId)}
+        onClear={() => {
+          void setSearch(null);
+          void setStatus(null);
+          void setPolicyId(null);
+        }}
+      >
         <NativeSelect
           value={status ?? ""}
           onChange={(e) => void setStatus((e.target.value || null) as typeof status)}
@@ -92,12 +98,14 @@ export function ExperimentsPage() {
             </option>
           ))}
         </NativeSelect>
-      </div>
+      </ListFilters>
       <QueryView
         query={query}
-        empty={
-          <EmptyState title="No experiments match">Clear the filters, or create a run.</EmptyState>
-        }
+        empty={listEmpty(
+          Boolean(search || status || policyId),
+          "experiments",
+          "Create a run to compare memory policies.",
+        )}
       >
         {(runs) => (
           <ul className="flex flex-col gap-2">

@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { Field, applyFieldErrors } from "@/components/form-field";
 import { PageHeader, Section } from "@/components/page-header";
 import { Freshness } from "@/components/provenance";
+import { RelatedLinks } from "@/components/related";
 import { EmptyState, ErrorState, LoadingState } from "@/components/states";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -49,6 +50,29 @@ export function ObjectDetail({ id }: { id: string }) {
         limit: 50,
       });
       return page.items;
+    },
+  });
+  const memory = useQuery({
+    queryKey: ["object-memory", id],
+    queryFn: async () => {
+      const object = await getServices().objects.get(id);
+      return getServices().memory.list({ sourceId: object.sourceId, objectId: id });
+    },
+  });
+  const questions = useQuery({
+    queryKey: ["object-questions", id],
+    queryFn: async () => {
+      const object = await getServices().objects.get(id);
+      const items = await getServices().questions.list(object.sourceId);
+      return items.filter((q) => q.resolvedObjectId === id || q.context.objectIds.includes(id));
+    },
+  });
+  const tasks = useQuery({
+    queryKey: ["object-tasks", id],
+    queryFn: async () => {
+      const object = await getServices().objects.get(id);
+      const items = await getServices().tasks.list({ sourceId: object.sourceId });
+      return items.filter((t) => t.target?.objectId === id);
     },
   });
 
@@ -122,7 +146,11 @@ export function ObjectDetail({ id }: { id: string }) {
           <CardContent className="flex flex-col items-center gap-3">
             {object.photoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={object.photoUrl} alt="" className="size-40 rounded-md object-cover" />
+              <img
+                src={object.photoUrl}
+                alt={`Photo of ${displayName(object)}`}
+                className="size-40 rounded-md object-cover"
+              />
             ) : (
               <div className="flex size-40 items-center justify-center rounded-md bg-surface-muted text-sm text-muted-foreground">
                 No photo
@@ -224,6 +252,43 @@ export function ObjectDetail({ id }: { id: string }) {
                 </li>
               ))}
             </ul>
+          </Section>
+
+          <Section title="Related">
+            <RelatedLinks
+              items={[
+                {
+                  href: `/app/operations/robots/${object.sourceId}`,
+                  label: "Source",
+                  hint: object.sourceId,
+                },
+                {
+                  href: "/app/operations/patrol",
+                  label: "Patrol",
+                  hint: "timeline and last-known map",
+                },
+                {
+                  href: "/app/operations/drive",
+                  label: "Drive",
+                  hint: "go to last known place",
+                },
+                ...(memory.data ?? []).map((item) => ({
+                  href: `/app/operations/memory/${item.id}`,
+                  label: item.summary,
+                  hint: item.type,
+                })),
+                ...(questions.data ?? []).map((item) => ({
+                  href: `/app/operations/ask/${item.id}`,
+                  label: item.question,
+                  hint: "question",
+                })),
+                ...(tasks.data ?? []).map((item) => ({
+                  href: `/app/operations/tasks/${item.id}`,
+                  label: item.command,
+                  hint: "task",
+                })),
+              ]}
+            />
           </Section>
 
           <Section title="Events">

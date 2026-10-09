@@ -13,8 +13,10 @@ import { isServiceError } from "@/lib/contracts/errors";
 import { signInSchema, type SignInValues } from "@/lib/contracts/schemas";
 import { DEMO_ACCOUNT } from "@/lib/auth/demo";
 import { getServices } from "@/lib/services";
+import { useHydrated } from "@/lib/use-hydrated";
 
 export function SignInForm() {
+  const ready = useHydrated();
   const router = useRouter();
   const params = useSearchParams();
   const next = params.get("next") || "/app/operations/overview";
@@ -56,6 +58,7 @@ export function SignInForm() {
       )}
       <form
         className="mt-6 flex flex-col gap-4"
+        method="post"
         onSubmit={form.handleSubmit((v) => mutation.mutate(v))}
         noValidate
       >
@@ -80,7 +83,7 @@ export function SignInForm() {
             />
           )}
         </Field>
-        <Button type="submit" disabled={mutation.isPending}>
+        <Button type="submit" disabled={!ready || mutation.isPending}>
           {mutation.isPending ? "Signing in…" : "Sign in"}
         </Button>
       </form>

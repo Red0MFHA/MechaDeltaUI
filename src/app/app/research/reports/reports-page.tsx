@@ -3,10 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { parseAsString, useQueryState } from "nuqs";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Field, applyFieldErrors } from "@/components/form-field";
+import { ListFilters, listEmpty } from "@/components/list-filters";
 import { PageHeader, Section } from "@/components/page-header";
 import { EmptyState, QueryView } from "@/components/states";
 import { JobBadge } from "@/components/status-badge";
@@ -51,6 +53,7 @@ export function ReportsPage() {
   });
 
   const selected = useWatch({ control: form.control, name: "runIds" }) ?? [];
+  const [search, setSearch] = useQueryState("q", parseAsString.withDefault(""));
 
   return (
     <>
@@ -107,35 +110,54 @@ export function ReportsPage() {
         </Card>
       </Section>
       <Section title="Existing reports" className="mt-8">
+        <ListFilters
+          search={search}
+          onSearch={(value) => void setSearch(value || null)}
+          placeholder="Search title or id"
+          searchLabel="Search reports"
+          active={Boolean(search)}
+          onClear={() => void setSearch(null)}
+        />
         <QueryView query={reports} empty={<EmptyState title="No reports yet" />}>
-          {(items) => (
-            <ul className="flex flex-col gap-2">
-              {items.map((r) => (
-                <li key={r.id}>
-                  <Link
-                    href={`/app/research/reports/${r.id}`}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-border bg-surface p-3 hover:border-primary/40"
-                  >
-                    <span>
-                      <span className="block font-medium">{r.title}</span>
-                      <span className="text-xs text-muted-foreground">{r.runIds.length} runs</span>
-                    </span>
-                    <JobBadge
-                      status={
-                        r.status === "generating"
-                          ? "running"
-                          : r.status === "queued"
-                            ? "queued"
-                            : r.status === "failed"
-                              ? "failed"
-                              : "completed"
-                      }
-                    />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
+          {(items) => {
+            const q = search.trim().toLowerCase();
+            const filtered = q
+              ? items.filter(
+                  (r) => r.title.toLowerCase().includes(q) || r.id.toLowerCase().includes(q),
+                )
+              : items;
+            if (filtered.length === 0) return listEmpty(true, "reports");
+            return (
+              <ul className="flex flex-col gap-2">
+                {filtered.map((r) => (
+                  <li key={r.id}>
+                    <Link
+                      href={`/app/research/reports/${r.id}`}
+                      className="flex items-center justify-between gap-3 rounded-lg border border-border bg-surface p-3 hover:border-primary/40"
+                    >
+                      <span>
+                        <span className="block font-medium">{r.title}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {r.runIds.length} runs
+                        </span>
+                      </span>
+                      <JobBadge
+                        status={
+                          r.status === "generating"
+                            ? "running"
+                            : r.status === "queued"
+                              ? "queued"
+                              : r.status === "failed"
+                                ? "failed"
+                                : "completed"
+                        }
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            );
+          }}
         </QueryView>
       </Section>
     </>

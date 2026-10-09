@@ -38,6 +38,8 @@ Optional demo media: copy `MechaDelta_Demo.mp4` from the simulation `deliverable
 | `npm run e2e`       | End-to-end tests (Playwright)               |
 | `npm run check`     | Typecheck, lint, test, and production build |
 
+Install Chromium once before the first e2e run: `npx playwright install chromium`.
+
 ## Branching
 
 `main` is always green. Work happens on `feat/*` branches and merges with `--no-ff` after `npm run check` passes.

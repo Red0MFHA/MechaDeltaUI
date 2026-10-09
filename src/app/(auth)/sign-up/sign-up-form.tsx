@@ -12,8 +12,10 @@ import { Input } from "@/components/ui/input";
 import { isServiceError } from "@/lib/contracts/errors";
 import { signUpSchema, type SignUpValues } from "@/lib/contracts/schemas";
 import { getServices } from "@/lib/services";
+import { useHydrated } from "@/lib/use-hydrated";
 
 export function SignUpForm() {
+  const ready = useHydrated();
   const router = useRouter();
   const form = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
@@ -45,6 +47,7 @@ export function SignUpForm() {
       </p>
       <form
         className="mt-6 flex flex-col gap-4"
+        method="post"
         onSubmit={form.handleSubmit((v) => mutation.mutate(v))}
         noValidate
       >
@@ -81,7 +84,7 @@ export function SignUpForm() {
             />
           )}
         </Field>
-        <Button type="submit" disabled={mutation.isPending}>
+        <Button type="submit" disabled={!ready || mutation.isPending}>
           {mutation.isPending ? "Creating account…" : "Create account"}
         </Button>
       </form>

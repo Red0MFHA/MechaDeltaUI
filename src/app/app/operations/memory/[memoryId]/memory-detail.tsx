@@ -48,6 +48,15 @@ export function MemoryDetail({ id }: { id: string }) {
           <Field label="Bytes" value={item.bytes !== undefined ? formatBytes(item.bytes) : "—"} />
           <Field label="Persistent" value={item.persistent ? "Yes" : "No"} />
           <Field label="Hash" value={item.contentHash ?? "—"} />
+          <p className="text-sm sm:col-span-2">
+            Source:{" "}
+            <Link
+              href={`/app/operations/robots/${item.sourceId}`}
+              className="text-primary hover:underline"
+            >
+              {item.sourceId}
+            </Link>
+          </p>
           {item.relatedObjectIds.map((oid) => (
             <p key={oid} className="text-sm sm:col-span-2">
               Object:{" "}
@@ -59,6 +68,22 @@ export function MemoryDetail({ id }: { id: string }) {
               </Link>
             </p>
           ))}
+          {item.relatedEventIds.length > 0 && (
+            <p className="text-sm sm:col-span-2">
+              Events:{" "}
+              {item.relatedEventIds.map((eid, i) => (
+                <span key={eid}>
+                  {i > 0 ? ", " : ""}
+                  <Link
+                    href={`/app/operations/events?event=${eid}`}
+                    className="text-primary hover:underline"
+                  >
+                    {eid}
+                  </Link>
+                </span>
+              ))}
+            </p>
+          )}
         </CardContent>
       </Card>
       <Section title="Ledger">

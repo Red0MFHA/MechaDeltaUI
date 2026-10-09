@@ -4,11 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 
+import { ListFilters, listEmpty } from "@/components/list-filters";
 import { NeedSource } from "@/components/need-source";
 import { PageHeader } from "@/components/page-header";
-import { EmptyState, QueryView } from "@/components/states";
+import { QueryView } from "@/components/states";
 import { Badge, type BadgeTone } from "@/components/ui/badge";
-import { Input, NativeSelect } from "@/components/ui/input";
+import { NativeSelect } from "@/components/ui/input";
 import type { MemoryType, ResidencyState } from "@/lib/contracts/types";
 import { formatBytes } from "@/lib/format";
 import { qk } from "@/lib/query/keys";
@@ -70,13 +71,18 @@ function MemoryBody({ sourceId }: { sourceId: string }) {
         description="Anchors stay in RAM. Payloads may be resident, on disk, or evicted. Intervals fold repeated sightings."
         crumbs={[{ label: "Memory" }]}
       />
-      <div className="mb-4 grid gap-2 sm:grid-cols-3">
-        <Input
-          value={search}
-          onChange={(e) => void setSearch(e.target.value || null)}
-          placeholder="Search"
-          aria-label="Search memory"
-        />
+      <ListFilters
+        search={search}
+        onSearch={(value) => void setSearch(value || null)}
+        placeholder="Search"
+        searchLabel="Search memory"
+        active={Boolean(search || type || residency)}
+        onClear={() => {
+          void setSearch(null);
+          void setType(null);
+          void setResidency(null);
+        }}
+      >
         <NativeSelect
           value={type ?? ""}
           onChange={(e) => void setType((e.target.value || null) as typeof type)}
@@ -101,12 +107,14 @@ function MemoryBody({ sourceId }: { sourceId: string }) {
             </option>
           ))}
         </NativeSelect>
-      </div>
+      </ListFilters>
       <QueryView
         query={query}
-        empty={
-          <EmptyState title="No memory records">Process a run on this source first.</EmptyState>
-        }
+        empty={listEmpty(
+          Boolean(search || type || residency),
+          "memory records",
+          "Process a run on this source first.",
+        )}
       >
         {(items) => (
           <ul className="flex flex-col gap-2">

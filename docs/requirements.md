@@ -83,8 +83,8 @@ labelled mock services; the HTTP adapter is a placeholder until the backend API 
 | ----- | --------------------------------------------- | -------------------------------- | -------- |
 | FR-39 | Process a recorded video                      | Robot detail (recording sources) | Mock     |
 | FR-40 | Ingestion and processing status               | Robot detail                     | Mock     |
-| FR-41 | Consistent search and filtering               | All lists                        | Planned  |
-| FR-42 | Cross-link related entities                   | All detail screens               | Planned  |
+| FR-41 | Consistent search and filtering               | All lists                        | Mock     |
+| FR-42 | Cross-link related entities                   | All detail screens               | Mock     |
 | FR-43 | Global notifications                          | Toasts                           | Mock     |
 | FR-44 | Loading, empty, unavailable, and error states | Shared components                | Mock     |
 | FR-45 | Data freshness and provenance                 | Badges, mock banner              | Mock     |

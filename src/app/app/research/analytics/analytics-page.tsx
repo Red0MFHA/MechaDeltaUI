@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import {
   Bar,
   BarChart,
@@ -149,7 +150,13 @@ export function AnalyticsPage() {
                   <ul className="list-disc pl-5 text-sm text-muted-foreground">
                     {incomplete.map((r) => (
                       <li key={r.id}>
-                        {r.name} ({r.status})
+                        <Link
+                          href={`/app/research/experiments/${r.id}`}
+                          className="text-primary hover:underline"
+                        >
+                          {r.name}
+                        </Link>{" "}
+                        ({r.status})
                       </li>
                     ))}
                   </ul>
