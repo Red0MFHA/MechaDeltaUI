@@ -1025,6 +1025,15 @@ export function createMockServices(): Services {
           });
           return stripPlan(task);
         }),
+      cmdVel: async (request) => {
+        // No artificial latency — joystick streams many times per second.
+        const now = Date.now();
+        const state = loadState(now);
+        const src = requireSource(state, request.sourceId);
+        requireCapability(src, "driveControl", "drive control");
+        requireOnline(src);
+        return { ok: true };
+      },
       navigate: (request) =>
         call("write", (s, now) => {
           if (request.confirmation !== true) {
