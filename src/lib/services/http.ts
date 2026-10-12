@@ -3,6 +3,7 @@ import type {
   CreateIngestionInput,
   EventQuery,
   HistoricalQuestionRequest,
+  CmdVelRequest,
   JogRequest,
   LedgerQuery,
   MemoryQuery,
@@ -241,6 +242,7 @@ export function createHttpServices(baseUrl: string | undefined): Services {
         ),
       get: (id) => get(`/tasks/${id}`),
       jog: (request: JogRequest) => send("/tasks/jog", "POST", request),
+      cmdVel: (request: CmdVelRequest) => send("/tasks/cmd_vel", "POST", request),
       navigate: (request: NavigateRequest) => send("/tasks/navigate", "POST", request),
       logUnsupported: (request: UnsupportedCommandRequest) =>
         send("/tasks/unsupported", "POST", request),

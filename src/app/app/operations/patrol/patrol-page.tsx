@@ -2,8 +2,9 @@
 
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
+import { LiveKitRobotStreams } from "@/components/livekit-streams";
 import { NeedSource } from "@/components/need-source";
 import { PageHeader, Section } from "@/components/page-header";
 import { ProvenanceBadge } from "@/components/provenance";
@@ -14,7 +15,7 @@ import { LidarPlot, SpatialMap } from "@/components/spatial-map";
 import { displayName } from "@/lib/domain/objects";
 import { formatClock } from "@/lib/format";
 import { qk } from "@/lib/query/keys";
-import { getServices } from "@/lib/services";
+import { dataMode, getServices } from "@/lib/services";
 
 export function PatrolPage() {
   return (
@@ -80,8 +81,23 @@ function PatrolBody({
 
   const [tMs, setTMs] = useState(0);
   const [mediaMissing, setMediaMissing] = useState(false);
+  const [liveTick, setLiveTick] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const duration = media.data?.durationMs ?? 200_000;
+  const mediaUrl = media.data?.url;
+  const isLiveImage =
+    !!mediaUrl &&
+    (/\.(jpe?g|png|webp)(\?|$)/i.test(mediaUrl) || mediaUrl.includes("camera.jpg"));
+  const duration = media.data?.durationMs && media.data.durationMs > 0 ? media.data.durationMs : 200_000;
+
+  useEffect(() => {
+    setMediaMissing(false);
+  }, [mediaUrl]);
+
+  useEffect(() => {
+    if (!isLiveImage) return;
+    const id = window.setInterval(() => setLiveTick((n) => n + 1), 500);
+    return () => window.clearInterval(id);
+  }, [isLiveImage]);
   const boxes = useMemo(
     () => (detections.data ?? []).filter((d) => Math.abs((d.mediaTimestampMs ?? 0) - tMs) < 600),
     [detections.data, tMs],
@@ -101,7 +117,7 @@ function PatrolBody({
     <>
       <PageHeader
         title="Patrol"
-        description="Camera or recording, detections, map, and LiDAR for the selected source."
+        description="Live camera, YOLO annotated, and RViz/LiDAR from the ROS bridge — plus identities from the active perception run."
         crumbs={[{ label: "Patrol" }]}
         meta={
           <>
@@ -109,6 +125,37 @@ function PatrolBody({
           </>
         }
       />
+      {dataMode === "http" && video ? (
+        <div className="flex flex-col gap-6">
+          <Card>
+            <CardContent>
+              <LiveKitRobotStreams sourceId={sourceId} />
+            </CardContent>
+          </Card>
+          <Section title="Objects in this run">
+            <QueryView
+              query={objects}
+              empty={<EmptyState title="No identities yet" className="py-6" />}
+            >
+              {(list) => (
+                <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {list.map((o) => (
+                    <li key={o.id}>
+                      <Link
+                        href={`/app/operations/objects/${o.id}`}
+                        className="flex items-center justify-between rounded-md border border-border bg-surface px-3 py-2 text-sm hover:border-primary/40"
+                      >
+                        <span>{displayName(o)}</span>
+                        <Badge tone="outline">{o.lastKnownLocation?.support ?? "unknown"}</Badge>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </QueryView>
+          </Section>
+        </div>
+      ) : (
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.8fr)]">
         <div className="flex flex-col gap-4">
           {!video ? (
@@ -117,23 +164,34 @@ function PatrolBody({
             <Card>
               <CardContent>
                 <div className="relative aspect-video overflow-hidden rounded-md bg-black">
-                  {media.data?.url && !mediaMissing ? (
-                    <video
-                      ref={videoRef}
-                      className="h-full w-full"
-                      src={media.data.url}
-                      controls
-                      onTimeUpdate={() =>
-                        setTMs(Math.round((videoRef.current?.currentTime ?? 0) * 1000))
-                      }
-                      onError={() => setMediaMissing(true)}
-                    >
-                      Patrol recording
-                    </video>
+                  {mediaUrl && !mediaMissing ? (
+                    isLiveImage ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- live JPEG from backend bridge
+                      <img
+                        key={liveTick}
+                        className="h-full w-full object-contain"
+                        src={`${mediaUrl}${mediaUrl.includes("?") ? "&" : "?"}t=${liveTick}`}
+                        alt={media.data?.title ?? "Live camera"}
+                        onError={() => setMediaMissing(true)}
+                      />
+                    ) : (
+                      <video
+                        ref={videoRef}
+                        className="h-full w-full"
+                        src={mediaUrl}
+                        controls
+                        onTimeUpdate={() =>
+                          setTMs(Math.round((videoRef.current?.currentTime ?? 0) * 1000))
+                        }
+                        onError={() => setMediaMissing(true)}
+                      >
+                        Patrol recording
+                      </video>
+                    )
                   ) : (
                     <div className="flex h-full items-center justify-center p-6 text-center text-sm text-white/80">
-                      {mediaMissing || !media.data?.url
-                        ? "No patrol video in public/demo/patrol.mp4. The timeline and detections below still play from the mock run."
+                      {mediaMissing || !mediaUrl
+                        ? "No patrol video in public/demo/patrol.mp4."
                         : "Loading media"}
                     </div>
                   )}
@@ -243,6 +301,7 @@ function PatrolBody({
           </Section>
         </div>
       </div>
+      )}
     </>
   );
 }

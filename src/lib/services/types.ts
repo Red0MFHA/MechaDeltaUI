@@ -9,6 +9,7 @@ import type {
   HistoricalQuestionRequest,
   HistoricalQuestionResult,
   IngestionJob,
+  CmdVelRequest,
   JogRequest,
   LedgerQuery,
   LidarScan,
@@ -116,11 +117,11 @@ export interface TasksApi {
   list(query: TaskQuery): Promise<RobotTask[]>;
   get(id: string): Promise<RobotTask>;
   jog(request: JogRequest): Promise<RobotTask>;
+  cmdVel(request: CmdVelRequest): Promise<{ ok: boolean }>;
   navigate(request: NavigateRequest): Promise<RobotTask>;
   logUnsupported(request: UnsupportedCommandRequest): Promise<RobotTask>;
   cancel(id: string): Promise<RobotTask>;
 }
-
 export interface ExperimentsApi {
   list(query?: ExperimentQuery): Promise<ExperimentRun[]>;
   get(id: string): Promise<ExperimentRun>;

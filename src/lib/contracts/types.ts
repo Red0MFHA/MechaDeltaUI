@@ -493,6 +493,13 @@ export interface JogRequest {
   command: string;
 }
 
+/** Streaming teleop for the on-screen joystick (not persisted as a task). */
+export interface CmdVelRequest {
+  sourceId: string;
+  linearX: number;
+  angularZ: number;
+}
+
 export interface NavigateRequest {
   sourceId: string;
   target: TaskTarget;
